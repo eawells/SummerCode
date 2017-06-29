@@ -45,9 +45,13 @@ public class UserInput {
 			if (expression.charAt(i) == '*' || expression.charAt(i) == '/' || expression.charAt(i) == '+' 
 					|| expression.charAt(i) == '-' || expression.charAt(i)== ')' || expression.charAt(i)=='(' || expression.charAt(i)=='s'){
 				//do something if the op is square root
-				//get the whole sqrt and push s on the stack
+				if(expression.charAt(i)=='s'){
+					//get the whole sqrt and push s on the stack
+					
+				}
 				
-				//else
+				
+				else{
 				s_op.push(expression.charAt(i));
 					
 					if(i != 0){
@@ -55,11 +59,14 @@ public class UserInput {
 						num = "";
 					}
 				}
+				}
 			else{
 				num += expression.charAt(i);
 			}
 		}
 		s_num.push(Double.parseDouble(num));
+		
+		return ans;
 //			if (expression.charAt(i) == '*' || expression.charAt(i) == '/' || expression.charAt(i) == '+' || expression.charAt(i) == '-'){
 //				if(i != 0){
 //					s_op.push(expression.charAt(i));
@@ -118,17 +125,17 @@ public class UserInput {
 //			s_op.pop();
 //		}
 		
-		return ans;
+	
 	}
 	
-	private double getDouble(int j, int i, String expression){
-		//get the double that was before the op
-		String d = "";
-		for(int k = j+1; k < i; k++){
-			d += expression.charAt(k);
-		}
-		return Double.parseDouble(d);	
-	}
+//	private double getDouble(int j, int i, String expression){
+//		//get the double that was before the op
+//		String d = "";
+//		for(int k = j+1; k < i; k++){
+//			d += expression.charAt(k);
+//		}
+//		return Double.parseDouble(d);	
+//	}
 	
 	public double addEq(double variable1, double variable2){
 		return variable1 + variable2;
