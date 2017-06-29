@@ -3,20 +3,22 @@ import java.util.*;
 
 public class UserInput {
 
-	public static void main(String args[]) {
+	public static void main(String args[]) throws Exception {
 		UserInput us = new UserInput();
 	}
 	
 	private String expression1;
+	private Calculate cal = new Calculate();
 	
-	public UserInput()
+	public UserInput() throws Exception
 	{
-		System.out.println("This program calculates the answer to an expression. Example of an expression: 45.9*3 + 2 - 9.44 / 61 +78. \nType exit to exit.");
+		System.out.println("This program calculates the answer to an expression. Type sqrt(n) to get the sqrt of n. ");
+		System.out.println("Example of an expression: 45.9*(3 + 2) - 9.44 /sqrt(4).\nType exit to exit.");
 		System.out.println("Please enter an expression: ");
 		Scanner s = new Scanner(System.in);
 		expression1 = s.nextLine();
 		while(!expression1.equals("exit")){
-			System.out.println("The answer is " + this.read(expression1));
+			System.out.println("The answer is " + this.evaluate(expression1));
 			System.out.println("Please enter an expression: ");
 			expression1 = s.nextLine();
 		}
@@ -27,7 +29,7 @@ public class UserInput {
 	//needs to be pushed on the stacks
 	
 	//use a stack to calculate the value of the expression
-	public double read(String expression){
+	public double evaluate(String expression) throws Exception{
 		//1. go through each char in the expression,
 		//2. if the char is an op, then push that op into the s_op stack
 		//	if the char is not an op, then concatenate it to the number string, add to s_num casted as double
@@ -46,15 +48,19 @@ public class UserInput {
 					|| expression.charAt(i) == '-' || expression.charAt(i)== ')' || expression.charAt(i)=='(' || expression.charAt(i)=='s'){
 				//do something if the op is square root
 				if(expression.charAt(i)=='s'){
-					//get the whole sqrt and push s on the stack
-					
+					//find the expression within the parenthesis of the sqrt
+					String sqrtExpression = cal.readParenthesis(expression.substring(i+4));
+					//change the index to i + the length of sqrtExpression + 2
+					i += sqrtExpression.length() + 2;
+					//push the number
+					s_num.push(Math.sqrt(evaluate(sqrtExpression)));
 				}
 				
 				
 				else{
 				s_op.push(expression.charAt(i));
 					
-					if(i != 0){
+					if(i != 0 && !num.isEmpty()){
 						s_num.push(Double.parseDouble(num));
 						num = "";
 					}
@@ -66,7 +72,8 @@ public class UserInput {
 		}
 		s_num.push(Double.parseDouble(num));
 		
-		return ans;
+		//return ans;
+		return s_num.pop(); //+ s_num.pop();
 //			if (expression.charAt(i) == '*' || expression.charAt(i) == '/' || expression.charAt(i) == '+' || expression.charAt(i) == '-'){
 //				if(i != 0){
 //					s_op.push(expression.charAt(i));
